@@ -18,7 +18,7 @@ export default function SignIn() {
           e.preventDefault()
           const formData = new FormData(e.target as HTMLFormElement)
           formData.set('flow', flow)
-          void signIn('password', formData)
+          void signIn('google')
             .catch((error) => {
               setError(error.message)
             })
