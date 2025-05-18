@@ -1,11 +1,11 @@
 import { convexAuthNextjsMiddleware, createRouteMatcher, nextjsMiddlewareRedirect } from '@convex-dev/auth/nextjs/server'
 
 const isSignInPage = createRouteMatcher(['/'])
-const isProtectedRoute = createRouteMatcher(['/server'])
+const isProtectedRoute = createRouteMatcher(['/dashboard'])
 
 export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
   if (isSignInPage(request) && (await convexAuth.isAuthenticated())) {
-    return nextjsMiddlewareRedirect(request, '/server')
+    return nextjsMiddlewareRedirect(request, '/dashboard')
   }
   if (isProtectedRoute(request) && !(await convexAuth.isAuthenticated())) {
     return nextjsMiddlewareRedirect(request, '/')
