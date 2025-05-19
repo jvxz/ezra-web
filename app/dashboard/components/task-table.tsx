@@ -4,9 +4,9 @@ import { Card } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { api } from '@/convex/_generated/api'
 
-function DashboardTable() {
-  const sessions = useQuery(api.sessions.collect, {
-    includeActiveSession: true,
+function TaskTable() {
+  const tasks = useQuery(api.tasks.collect, {
+    includeActiveSessionTasks: true,
   })
 
   return (
@@ -21,13 +21,13 @@ function DashboardTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sessions?.map(session => (
+          {tasks?.map(task => (
             <TableRow
               className="data-[active=true]:bg-green-500"
-              data-active={session.isActive}
-              key={session._id}
+              data-active={task.isActive}
+              key={task._id}
             >
-              <TableCell>{session.id}</TableCell>
+              <TableCell>{task.id}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -36,4 +36,4 @@ function DashboardTable() {
   )
 }
 
-export { DashboardTable }
+export { TaskTable }

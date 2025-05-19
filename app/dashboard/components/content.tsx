@@ -1,12 +1,13 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { DashboardTable } from './table'
+import { SessionTable } from './session-table'
+import { TaskTable } from './task-table'
 
 function DashboardContent() {
   return (
     <div className="flex w-full flex-1 gap-8">
       <section className="flex flex-1 gap-4 *:grow">
-        <DashboardTable />
-        <DashboardTable />
+        <SessionTable />
+        <TaskTable />
       </section>
       <section className="w-1/4 space-y-4">
         <DashboardInfoCard />
