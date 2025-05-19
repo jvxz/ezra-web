@@ -14,10 +14,14 @@ function SessionTable() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[100px]">Date</TableHead>
+            <TableHead>Session</TableHead>
+            <TableHead>Start</TableHead>
+            <TableHead>End</TableHead>
+            <TableHead>Total Duration</TableHead>
+            <TableHead>Total AET</TableHead>
+            <TableHead>Total Efficiency</TableHead>
+            <TableHead className="text-right">Total Earnings</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -27,7 +31,14 @@ function SessionTable() {
               data-active={session.isActive}
               key={session._id}
             >
-              <TableCell>{session.id}</TableCell>
+              <TableCell>{new Date(session.start).toLocaleString()}</TableCell>
+              <TableCell>description</TableCell>
+              <TableCell>{new Date(session.start).toLocaleString()}</TableCell>
+              <TableCell>{new Date(session.end ?? 0).toLocaleString()}</TableCell>
+              <TableCell>tbd</TableCell>
+              <TableCell>tbd</TableCell>
+              <TableCell>tbd</TableCell>
+              <TableCell className="text-right">tbd</TableCell>
             </TableRow>
           ))}
         </TableBody>
