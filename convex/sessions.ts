@@ -4,7 +4,7 @@ import { mutation, query } from './_generated/server'
 
 export const collect = query({
   args: {
-    includeSessionTasks: v.boolean(),
+    // includeSessionTasks: v.boolean(),
     includeActiveSession: v.boolean(),
   },
   handler: async (ctx, args) => {
@@ -13,12 +13,71 @@ export const collect = query({
       throw new Error('Unauthenticated call to mutation')
     }
 
-    const allSessions = await ctx.db.query('sessions')
+    const sessions = await ctx.db.query('sessions')
       .filter(q => q.eq(q.field('userId'), userId))
       .filter(q => q.eq(q.field('isActive'), false))
       .collect()
 
-    return allSessions
+    if (args.includeActiveSession) {
+      const activeSession = await ctx.db.query('sessions')
+        .filter(q => q.eq(q.field('userId'), userId))
+        .filter(q => q.eq(q.field('isActive'), true))
+        .first()
+
+      if (activeSession) {
+        sessions.push(activeSession)
+      }
+    }
+
+    // if (args.includeSessionTasks) {
+    //   const tasks = await ctx.db.query('tasks')
+    //     .filter(q => q.eq(q.field('userId'), userId))
+    //     .collect()
+
+    //   return {
+    //     sessions,
+    //     tasks,
+    //   }
+    // }
+
+    return sessions
+  },
+})
+
+export const collectWithTasks = query({
+  args: {
+    includeActiveSession: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx)
+    if (userId === null) {
+      throw new Error('Unauthenticated call to mutation')
+    }
+
+    const sessions = await ctx.db.query('sessions')
+      .filter(q => q.eq(q.field('userId'), userId))
+      .filter(q => q.eq(q.field('isActive'), false))
+      .collect()
+
+    if (args.includeActiveSession) {
+      const activeSession = await ctx.db.query('sessions')
+        .filter(q => q.eq(q.field('userId'), userId))
+        .filter(q => q.eq(q.field('isActive'), true))
+        .first()
+
+      if (activeSession) {
+        sessions.push(activeSession)
+      }
+    }
+
+    const tasks = await ctx.db.query('tasks')
+      .filter(q => q.eq(q.field('userId'), userId))
+      .collect()
+
+    return {
+      sessions,
+      tasks,
+    }
   },
 })
 
